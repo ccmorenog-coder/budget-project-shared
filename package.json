@@ -1,0 +1,33 @@
+{
+  "name": "@ccmorenog-coder/budget-shared",
+  "version": "1.0.0",
+  "description": "Tipos, interfaces y esquemas Zod compartidos entre budget-api y budget-frontend",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ccmorenog-coder/budget-project-shared.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "budget",
+    "shared",
+    "types",
+    "zod"
+  ],
+  "author": "ccmorenog",
+  "license": "ISC",
+  "dependencies": {
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
