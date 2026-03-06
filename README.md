@@ -1,67 +1,69 @@
-# budget-app — Shared
+# @ccmorenog-coder/budget-shared
 
-> Tipos TypeScript, esquemas Zod y constantes fiscales compartidas entre `budget-app-api` y `budget-app-web`.
+> Fuente de verdad única: Tipos TypeScript, Esquemas Zod y DTOs compartidos para el ecosistema `budget-app`.
+
+Este paquete centraliza las reglas de negocio y validaciones para garantizar la integridad de datos entre el **API (NestJS)** y el **Frontend (Next.js 15)**.
 
 ---
 
-## ¿Qué exporta este paquete?
+## 🏗️ Estructura del Paquete
 
 | Módulo | Descripción |
 |--------|-------------|
-| `src/enums.ts` | Enums validados con Zod: roles, tipos de wallet, tipos de transacción, estados de inversión, tipos de notificación, etc. Fuente de verdad única para frontend y backend. |
-| `src/fiscal.ts` | Constantes tipadas de claves de parámetros fiscales (`FISCAL_KEYS`) y configuración de app (`APP_CONFIG_KEYS`). Elimina strings mágicos en el código. |
-| `src/index.ts` | Barrel export — importar desde `@budget-app/shared` |
+| `src/enums/` | **25 Enums** de negocio (UserRole, WalletType, IncomeType, etc.) con soporte nativo de Zod. |
+| `src/dtos/` | **Esquemas de Autenticación** (Login, Register, AuthResponse) validados con Zod. |
+| `src/index.ts` | Barrel export oficial para consumos externos. |
 
 ---
 
-## Instalación (enlace local)
+## 🚀 Instalación
+
+### Desde GitHub Packages (Recomendado)
+Configura tu `.npmrc` con el scope `@ccmorenog-coder` apuntando a `https://npm.pkg.github.com` y luego ejecuta:
 
 ```bash
-# Opción 1 — npm link
-cd code/budget-app/budget-shared
-npm link
-
-cd ../budget-api
-npm link @budget-app/shared
-
-cd ../budget-frontend
-npm link @budget-app/shared
+npm install @ccmorenog-coder/budget-shared
 ```
 
-```bash
-# Opción 2 — instalación por ruta relativa
-npm install ../budget-shared
-```
-
----
-
-## Build
+### Desarrollo Local (Enlace)
+Si estás realizando cambios en caliente en este paquete:
 
 ```bash
-npm run build   # Compila TypeScript a dist/
-npm run dev     # Modo watch
+# En budget-shared
+npm run build
+npm pack
+
+# En el proyecto consumidor (Frontend o API)
+npm install ../budget-shared/budget-app-shared-1.0.0.tgz
 ```
 
 ---
 
-## Uso
+## 🛠️ Scripts Disponibles
+
+- `npm run build`: Compila TypeScript a `dist/` con declaraciones de tipos.
+- `npm run clean`: Elimina la carpeta `dist/` para una reconstrucción limpia.
+- `npm run watch`: Modo observador para desarrollo continuo.
+
+---
+
+## 💡 Ejemplo de Uso
 
 ```typescript
-import { UserRoleSchema, WalletTypeSchema, FISCAL_KEYS } from "@budget-app/shared";
+import { UserRole, LoginSchema } from '@ccmorenog-coder/budget-shared';
 
-// Validar con Zod
-const role = UserRoleSchema.parse("USER");         // "USER"
-const wallet = WalletTypeSchema.parse("BANK");     // "BANK"
+// Uso de Enums
+const role = UserRole.USER;
 
-// Constantes fiscales (sin strings mágicos)
-const uvtKey = FISCAL_KEYS.UVT;                   // "UVT"
-const gmfKey = FISCAL_KEYS.GMF_RATE;              // "GMF_RATE"
+// Validación con Zod
+const result = LoginSchema.safeParse({ email: 'test@example.com', password: '123' });
+if (!result.success) {
+  console.log(result.error.format());
+}
 ```
 
 ---
 
-## Documentación
-
-Decisiones de arquitectura y reglas de negocio:
-→ `project-docs/budget-app/`
+## ⚖️ Licencia
+ISC - Propiedad de ccmorenog-coder.
 <!-- ia-scaffolding:managed -->
